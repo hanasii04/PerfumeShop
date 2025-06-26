@@ -5,7 +5,7 @@ namespace PerfumeShop.Models
 	public class TheTich
 	{
 		[Key]
-		public int Id_TheTich { get; set; }
+		public int Id { get; set; }
 		[Required]
 		[StringLength(50)]
 		public string Ten { get; set; }

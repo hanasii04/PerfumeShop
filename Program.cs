@@ -12,9 +12,9 @@ namespace PerfumeShop
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-			builder.Services.AddDbContext<PerfumeShopContext>(options =>
-	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-		   .UseLazyLoadingProxies());
+			builder.Services.AddDbContext<PerfumeShopContext>
+            (options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+		    .UseLazyLoadingProxies());
 
 			var app = builder.Build();
 

@@ -5,7 +5,7 @@ namespace PerfumeShop.Models
 	public class PhuongThucThanhToan
 	{
 		[Key]
-		public int Id_PhuongThucThanhToan { get; set; }
+		public int Id { get; set; }
 		[Required]
 		[StringLength(100)]
 		public string Ten { get; set; }

@@ -6,7 +6,6 @@ namespace PerfumeShop.Models
 	{
 		public PerfumeShopContext(DbContextOptions<PerfumeShopContext> options) : base(options) { }
 
-		public DbSet<TaiKhoan> TaiKhoans { get; set; }
 		public DbSet<NguoiDung> NguoiDungs { get; set; }
 		public DbSet<GioHang> GioHangs { get; set; }
 		public DbSet<GioHangChiTiet> GioHangChiTiets { get; set; }
@@ -22,13 +21,85 @@ namespace PerfumeShop.Models
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.Entity<TaiKhoan>().HasIndex(t => t.Username).IsUnique();
+			// Đảm bảo mỗi Username, Email, TenMaGiamGia sẽ là duy nhất
+			modelBuilder.Entity<NguoiDung>().HasIndex(t => t.Username).IsUnique();
 			modelBuilder.Entity<NguoiDung>().HasIndex(n => n.Email).IsUnique();
 			modelBuilder.Entity<MaGiamGia>().HasIndex(m => m.TenMaGiamGia).IsUnique();
+
+			modelBuilder.Entity<NguoiDung>()
+                .HasOne(n => n.GioHang)
+                .WithOne(g => g.NguoiDung)
+                .HasForeignKey<GioHang>(g => g.Id_NguoiDung)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            // Cấu hình các quan hệ khác
+            modelBuilder.Entity<HoaDon>()
+                .HasOne(h => h.NguoiDung)
+                .WithMany(n => n.HoaDons)
+                .HasForeignKey(h => h.Id_NguoiDung)
+                .OnDelete (DeleteBehavior.NoAction);
+            modelBuilder.Entity<HoaDon>()
+                .HasOne(h => h.DiaChi)
+                .WithMany(d => d.HoaDons)
+                .HasForeignKey(h => h.Id_DiaChi)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<HoaDon>()
+                .HasOne(h => h.MaGiamGia)
+                .WithMany(m => m.HoaDons)
+                .HasForeignKey(h => h.Id_MaGiamGia)
+                .OnDelete(DeleteBehavior.SetNull);
+            modelBuilder.Entity<HoaDon>()
+                .HasOne(h => h.PhuongThucThanhToan)
+                .WithMany(p => p.HoaDons)
+                .HasForeignKey(h => h.Id_PhuongThucThanhToan)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<HoaDon>()
+                .HasOne(h => h.PhuongThucVanChuyen)
+                .WithMany(p => p.HoaDons)
+                .HasForeignKey(h => h.Id_PhuongThucVanChuyen)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<DiaChi>()
+                .HasOne(d => d.NguoiDung)
+                .WithMany(n => n.DiaChis)
+                .HasForeignKey(d => d.Id_NguoiDung)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<GioHangChiTiet>()
+                .HasOne(g => g.GioHang)
+                .WithMany(g => g.GioHangChiTiets)
+                .HasForeignKey(g => g.Id_GioHang)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<GioHangChiTiet>()
+                .HasOne(g => g.SanPhamChiTiet)
+                .WithMany(s => s.GioHangChiTiets)
+                .HasForeignKey(g => g.Id_SanPhamChiTiet)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<HoaDonChiTiet>()
+                .HasOne(h => h.HoaDon)
+                .WithMany(h => h.HoaDonChiTiets)
+                .HasForeignKey(h => h.Id_HoaDon)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<HoaDonChiTiet>()
+                .HasOne(h => h.SanPhamChiTiet)
+                .WithMany(s => s.HoaDonChiTiets)
+                .HasForeignKey(h => h.Id_SanPhamChiTiet)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<SanPhamChiTiet>()
+                .HasOne(s => s.SanPham)
+                .WithMany(s => s.SanPhamChiTiets)
+                .HasForeignKey(s => s.Id_SanPham)
+                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<SanPhamChiTiet>()
+                .HasOne(s => s.TheTich)
+                .WithMany(t => t.SanPhamChiTiets)
+                .HasForeignKey(s => s.Id_TheTich)
+                .OnDelete(DeleteBehavior.NoAction);
 		}
 
-		public override int SaveChanges()
+		// Ghi đè phương thức SaveChanges của DbContext để tự động gán giá trị cho NgayTao và NgayCapNhat
+		public override int SaveChanges() 
 		{
+			// Lấy tất cả các thực thể kế thừa interface ICreatable
+			// Nếu đang ở trạng thái Added(tao mới), gán NgayTao = DateTime.Now.
 			var creatableEntries = ChangeTracker.Entries<ICreatable>();
 			foreach (var entry in creatableEntries)
 			{
@@ -36,6 +107,8 @@ namespace PerfumeShop.Models
 					entry.Entity.NgayTao = DateTime.Now;
 			}
 
+			// Lấy tất cả các thực thể kế thừa interface IUpdatable
+			// Nếu đang ở trạng thái Modified(cập nhật), gán NgayCapNhat = DateTime.Now.
 			var updatableEntries = ChangeTracker.Entries<IUpdatable>();
 			foreach (var entry in updatableEntries)
 			{

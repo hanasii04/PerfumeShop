@@ -13,19 +13,19 @@ namespace PerfumeShop.Models
 		public decimal TongTien { get; set; }
 		public OrderStatus TrangThai { get; set; } = OrderStatus.ChoXacNhan;
 		public DateTime NgayTao { get; set; } = DateTime.Now;
-		[ForeignKey("Id_PhuongThucVanChuyen")]
+		[ForeignKey("PhuongThucVanChuyen")]
 		public int Id_PhuongThucVanChuyen { get; set; }
 		public virtual PhuongThucVanChuyen PhuongThucVanChuyen { get; set; }
-		[ForeignKey("Id_PhuongThucThanhToan")]
+		[ForeignKey("PhuongThucThanhToan")]
 		public int Id_PhuongThucThanhToan { get; set; }
 		public virtual PhuongThucThanhToan PhuongThucThanhToan { get; set; }
-		[ForeignKey("Id_DiaChi")]
+		[ForeignKey("DiaChi")]
 		public int Id_DiaChi { get; set; }
 		public virtual DiaChi DiaChi { get; set; }
-		[ForeignKey("Id_MaGiamGia")]
+		[ForeignKey("MaGiamGia")]
 		public int? Id_MaGiamGia { get; set; }
 		public virtual MaGiamGia MaGiamGia { get; set; }
-		[ForeignKey("Id_NguoiDung")]
+		[ForeignKey("NguoiDung")]
 		public int Id_NguoiDung { get; set; }
 		public virtual NguoiDung NguoiDung { get; set; }
 		public virtual List<HoaDonChiTiet> HoaDonChiTiets { get; set; } = new List<HoaDonChiTiet>();

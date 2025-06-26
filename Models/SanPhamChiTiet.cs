@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PerfumeShop.Models
 {
-	public class SanPhamChiTiet
+	public class SanPhamChiTiet : IUpdatable
 	{
 		[Key]
 		public int Id { get; set; }
@@ -12,14 +12,16 @@ namespace PerfumeShop.Models
 		public int SoLuong { get; set; }
 		[Required]
 		[Range(0, int.MaxValue)]
-		public decimal GiaBan { get; set; }
+		public int GiaBan { get; set; }
 		[Required]
 		[Range(0, int.MaxValue)]
-		public decimal GiaNhap { get; set; }
-		[ForeignKey("Id_SanPham")]
+		public int GiaNhap { get; set; }
+		public DateTime NgayTao { get; set; } = DateTime.Now;
+		public DateTime? NgayCapNhat { get; set; }
+		[ForeignKey("SanPham")]
 		public int Id_SanPham { get; set; }
 		public virtual SanPham SanPham { get; set; }
-		[ForeignKey("Id_TheTich")]
+		[ForeignKey("TheTich")]
 		public int Id_TheTich { get; set; }
 		public virtual TheTich TheTich { get; set; }
 		public virtual List<GioHangChiTiet> GioHangChiTiets { get; set; } = new List<GioHangChiTiet>();

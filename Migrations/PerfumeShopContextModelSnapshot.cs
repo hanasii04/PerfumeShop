@@ -36,9 +36,6 @@ namespace PerfumeShop.Migrations
                     b.Property<int>("Id_NguoiDung")
                         .HasColumnType("int");
 
-                    b.Property<int>("NguoiDungId")
-                        .HasColumnType("int");
-
                     b.Property<string>("TenDiaChi")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -46,7 +43,7 @@ namespace PerfumeShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NguoiDungId");
+                    b.HasIndex("Id_NguoiDung");
 
                     b.ToTable("DiaChis");
                 });
@@ -62,12 +59,10 @@ namespace PerfumeShop.Migrations
                     b.Property<int>("Id_NguoiDung")
                         .HasColumnType("int");
 
-                    b.Property<int>("NguoiDungId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("NguoiDungId");
+                    b.HasIndex("Id_NguoiDung")
+                        .IsUnique();
 
                     b.ToTable("GioHangs");
                 });
@@ -80,30 +75,20 @@ namespace PerfumeShop.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("GioHangChiTietId")
+                    b.Property<int>("Id_GioHang")
                         .HasColumnType("int");
 
-                    b.Property<int?>("GioHangId")
+                    b.Property<int>("Id_SanPhamChiTiet")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id_NguoiDung")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NguoiDungId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SanPhamChiTietId")
+                    b.Property<int>("SoLuong")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("GioHangChiTietId");
+                    b.HasIndex("Id_GioHang");
 
-                    b.HasIndex("GioHangId");
-
-                    b.HasIndex("NguoiDungId");
-
-                    b.HasIndex("SanPhamChiTietId");
+                    b.HasIndex("Id_SanPhamChiTiet");
 
                     b.ToTable("GioHangChiTiets");
                 });
@@ -115,9 +100,6 @@ namespace PerfumeShop.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("DiaChiId")
-                        .HasColumnType("int");
 
                     b.Property<int>("Id_DiaChi")
                         .HasColumnType("int");
@@ -134,20 +116,8 @@ namespace PerfumeShop.Migrations
                     b.Property<int>("Id_PhuongThucVanChuyen")
                         .HasColumnType("int");
 
-                    b.Property<int>("MaGiamGiaId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("NgayTao")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("NguoiDungId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PhuongThucThanhToanId_PhuongThucThanhToan")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PhuongThucVanChuyenId")
-                        .HasColumnType("int");
 
                     b.Property<decimal>("TongTien")
                         .HasColumnType("decimal(18,2)");
@@ -157,15 +127,15 @@ namespace PerfumeShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DiaChiId");
+                    b.HasIndex("Id_DiaChi");
 
-                    b.HasIndex("MaGiamGiaId");
+                    b.HasIndex("Id_MaGiamGia");
 
-                    b.HasIndex("NguoiDungId");
+                    b.HasIndex("Id_NguoiDung");
 
-                    b.HasIndex("PhuongThucThanhToanId_PhuongThucThanhToan");
+                    b.HasIndex("Id_PhuongThucThanhToan");
 
-                    b.HasIndex("PhuongThucVanChuyenId");
+                    b.HasIndex("Id_PhuongThucVanChuyen");
 
                     b.ToTable("HoaDons");
                 });
@@ -178,10 +148,7 @@ namespace PerfumeShop.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal>("DonGia")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("HoaDonId")
+                    b.Property<int>("DonGia")
                         .HasColumnType("int");
 
                     b.Property<int>("Id_HoaDon")
@@ -190,20 +157,17 @@ namespace PerfumeShop.Migrations
                     b.Property<int>("Id_SanPhamChiTiet")
                         .HasColumnType("int");
 
-                    b.Property<int>("SanPhamChiTietId")
-                        .HasColumnType("int");
-
                     b.Property<int>("SoLuong")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("TongTien")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("TongTien")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HoaDonId");
+                    b.HasIndex("Id_HoaDon");
 
-                    b.HasIndex("SanPhamChiTietId");
+                    b.HasIndex("Id_SanPhamChiTiet");
 
                     b.ToTable("HoaDonChiTiets");
                 });
@@ -228,8 +192,8 @@ namespace PerfumeShop.Migrations
                     b.Property<DateTime>("NgayTao")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("PhanTramGiam")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("PhanTramGiam")
+                        .HasColumnType("int");
 
                     b.Property<int>("SoLuong")
                         .HasColumnType("int");
@@ -271,14 +235,32 @@ namespace PerfumeShop.Migrations
                     b.Property<DateTime>("NgayTao")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SoDienThoai")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<int>("TrangThai")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("VaiTro")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("Username")
                         .IsUnique();
 
                     b.ToTable("NguoiDungs");
@@ -286,18 +268,18 @@ namespace PerfumeShop.Migrations
 
             modelBuilder.Entity("PerfumeShop.Models.PhuongThucThanhToan", b =>
                 {
-                    b.Property<int>("Id_PhuongThucThanhToan")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_PhuongThucThanhToan"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Ten")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("Id_PhuongThucThanhToan");
+                    b.HasKey("Id");
 
                     b.ToTable("PhuongThucThanhToans");
                 });
@@ -310,8 +292,8 @@ namespace PerfumeShop.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal>("GiaTien")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("GiaTien")
+                        .HasColumnType("int");
 
                     b.Property<string>("Ten")
                         .IsRequired()
@@ -342,12 +324,6 @@ namespace PerfumeShop.Migrations
                     b.Property<string>("MoTa")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("NgayCapNhat")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("NgayTao")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("QuocGia")
                         .IsRequired()
@@ -380,45 +356,16 @@ namespace PerfumeShop.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal>("GiaBan")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("GiaBan")
+                        .HasColumnType("int");
 
-                    b.Property<decimal>("GiaNhap")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("GiaNhap")
+                        .HasColumnType("int");
 
                     b.Property<int>("Id_SanPham")
                         .HasColumnType("int");
 
                     b.Property<int>("Id_TheTich")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SanPhamId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SoLuong")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TheTichId_TheTich")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SanPhamId");
-
-                    b.HasIndex("TheTichId_TheTich");
-
-                    b.ToTable("SanPhamChiTiets");
-                });
-
-            modelBuilder.Entity("PerfumeShop.Models.TaiKhoan", b =>
-                {
-                    b.Property<int>("Id_TaiKhoan")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_TaiKhoan"));
-
-                    b.Property<int>("Id_NguoiDung")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("NgayCapNhat")
@@ -427,48 +374,32 @@ namespace PerfumeShop.Migrations
                     b.Property<DateTime>("NgayTao")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("NguoiDungId")
+                    b.Property<int>("SoLuong")
                         .HasColumnType("int");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("Id");
 
-                    b.Property<int>("TrangThai")
-                        .HasColumnType("int");
+                    b.HasIndex("Id_SanPham");
 
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.HasIndex("Id_TheTich");
 
-                    b.Property<int>("VaiTro")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id_TaiKhoan");
-
-                    b.HasIndex("NguoiDungId");
-
-                    b.HasIndex("Username")
-                        .IsUnique();
-
-                    b.ToTable("TaiKhoans");
+                    b.ToTable("SanPhamChiTiets");
                 });
 
             modelBuilder.Entity("PerfumeShop.Models.TheTich", b =>
                 {
-                    b.Property<int>("Id_TheTich")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id_TheTich"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Ten")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.HasKey("Id_TheTich");
+                    b.HasKey("Id");
 
                     b.ToTable("TheTichs");
                 });
@@ -477,8 +408,8 @@ namespace PerfumeShop.Migrations
                 {
                     b.HasOne("PerfumeShop.Models.NguoiDung", "NguoiDung")
                         .WithMany("DiaChis")
-                        .HasForeignKey("NguoiDungId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("Id_NguoiDung")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("NguoiDung");
@@ -487,9 +418,9 @@ namespace PerfumeShop.Migrations
             modelBuilder.Entity("PerfumeShop.Models.GioHang", b =>
                 {
                     b.HasOne("PerfumeShop.Models.NguoiDung", "NguoiDung")
-                        .WithMany()
-                        .HasForeignKey("NguoiDungId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithOne("GioHang")
+                        .HasForeignKey("PerfumeShop.Models.GioHang", "Id_NguoiDung")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("NguoiDung");
@@ -497,57 +428,52 @@ namespace PerfumeShop.Migrations
 
             modelBuilder.Entity("PerfumeShop.Models.GioHangChiTiet", b =>
                 {
-                    b.HasOne("PerfumeShop.Models.GioHangChiTiet", null)
+                    b.HasOne("PerfumeShop.Models.GioHang", "GioHang")
                         .WithMany("GioHangChiTiets")
-                        .HasForeignKey("GioHangChiTietId");
-
-                    b.HasOne("PerfumeShop.Models.GioHang", null)
-                        .WithMany("GioHangChiTiets")
-                        .HasForeignKey("GioHangId");
-
-                    b.HasOne("PerfumeShop.Models.NguoiDung", "NguoiDung")
-                        .WithMany()
-                        .HasForeignKey("NguoiDungId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("Id_GioHang")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("PerfumeShop.Models.SanPhamChiTiet", null)
+                    b.HasOne("PerfumeShop.Models.SanPhamChiTiet", "SanPhamChiTiet")
                         .WithMany("GioHangChiTiets")
-                        .HasForeignKey("SanPhamChiTietId");
+                        .HasForeignKey("Id_SanPhamChiTiet")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
-                    b.Navigation("NguoiDung");
+                    b.Navigation("GioHang");
+
+                    b.Navigation("SanPhamChiTiet");
                 });
 
             modelBuilder.Entity("PerfumeShop.Models.HoaDon", b =>
                 {
                     b.HasOne("PerfumeShop.Models.DiaChi", "DiaChi")
                         .WithMany("HoaDons")
-                        .HasForeignKey("DiaChiId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("Id_DiaChi")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("PerfumeShop.Models.MaGiamGia", "MaGiamGia")
                         .WithMany("HoaDons")
-                        .HasForeignKey("MaGiamGiaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Id_MaGiamGia")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("PerfumeShop.Models.NguoiDung", "NguoiDung")
                         .WithMany("HoaDons")
-                        .HasForeignKey("NguoiDungId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("Id_NguoiDung")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("PerfumeShop.Models.PhuongThucThanhToan", "PhuongThucThanhToan")
                         .WithMany("HoaDons")
-                        .HasForeignKey("PhuongThucThanhToanId_PhuongThucThanhToan")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("Id_PhuongThucThanhToan")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("PerfumeShop.Models.PhuongThucVanChuyen", "PhuongThucVanChuyen")
                         .WithMany("HoaDons")
-                        .HasForeignKey("PhuongThucVanChuyenId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("Id_PhuongThucVanChuyen")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("DiaChi");
@@ -565,14 +491,14 @@ namespace PerfumeShop.Migrations
                 {
                     b.HasOne("PerfumeShop.Models.HoaDon", "HoaDon")
                         .WithMany("HoaDonChiTiets")
-                        .HasForeignKey("HoaDonId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("Id_HoaDon")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("PerfumeShop.Models.SanPhamChiTiet", "SanPhamChiTiet")
                         .WithMany("HoaDonChiTiets")
-                        .HasForeignKey("SanPhamChiTietId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("Id_SanPhamChiTiet")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("HoaDon");
@@ -584,30 +510,19 @@ namespace PerfumeShop.Migrations
                 {
                     b.HasOne("PerfumeShop.Models.SanPham", "SanPham")
                         .WithMany("SanPhamChiTiets")
-                        .HasForeignKey("SanPhamId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("Id_SanPham")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("PerfumeShop.Models.TheTich", "TheTich")
                         .WithMany("SanPhamChiTiets")
-                        .HasForeignKey("TheTichId_TheTich")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("Id_TheTich")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("SanPham");
 
                     b.Navigation("TheTich");
-                });
-
-            modelBuilder.Entity("PerfumeShop.Models.TaiKhoan", b =>
-                {
-                    b.HasOne("PerfumeShop.Models.NguoiDung", "NguoiDung")
-                        .WithMany()
-                        .HasForeignKey("NguoiDungId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("NguoiDung");
                 });
 
             modelBuilder.Entity("PerfumeShop.Models.DiaChi", b =>
@@ -616,11 +531,6 @@ namespace PerfumeShop.Migrations
                 });
 
             modelBuilder.Entity("PerfumeShop.Models.GioHang", b =>
-                {
-                    b.Navigation("GioHangChiTiets");
-                });
-
-            modelBuilder.Entity("PerfumeShop.Models.GioHangChiTiet", b =>
                 {
                     b.Navigation("GioHangChiTiets");
                 });
@@ -638,6 +548,9 @@ namespace PerfumeShop.Migrations
             modelBuilder.Entity("PerfumeShop.Models.NguoiDung", b =>
                 {
                     b.Navigation("DiaChis");
+
+                    b.Navigation("GioHang")
+                        .IsRequired();
 
                     b.Navigation("HoaDons");
                 });

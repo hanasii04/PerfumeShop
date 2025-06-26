@@ -11,7 +11,7 @@ namespace PerfumeShop.Models
 		public string TenMaGiamGia { get; set; }
 		[Required]
 		[Range(0, 100)]
-		public decimal PhanTramGiam { get; set; }
+		public int PhanTramGiam { get; set; }
 		[Required]
 		public DateTime NgayBatDau { get; set; }
 		[Required]
@@ -20,7 +20,7 @@ namespace PerfumeShop.Models
 		[Range(0, int.MaxValue)]
 		public int SoLuong { get; set; }
 		public DateTime NgayTao { get; set; } = DateTime.Now;
-		public DateTime? NgayCapNhat { get; set; } = DateTime.Now;
+		public DateTime? NgayCapNhat { get; set; }
 		public virtual List<HoaDon> HoaDons { get; set; } = new List<HoaDon>();
 	}
 }

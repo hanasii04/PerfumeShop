@@ -7,9 +7,14 @@ namespace PerfumeShop.Models
 	{
 		[Key]
 		public int Id { get; set; }
-		[ForeignKey("Id_NguoiDung")]
-		public int Id_NguoiDung { get; set; }
-		public virtual NguoiDung NguoiDung { get; set; }
-		public virtual List<GioHangChiTiet> GioHangChiTiets { get; set; } = new List<GioHangChiTiet>();
+		[Required]
+		[Range(0, int.MaxValue)]
+		public int SoLuong { get; set; }
+		[ForeignKey("GioHang")]
+		public int Id_GioHang { get; set; }
+		public virtual GioHang GioHang { get; set; }
+		[ForeignKey("SanPhamChiTiet")]
+		public int Id_SanPhamChiTiet { get; set; }
+		public virtual SanPhamChiTiet SanPhamChiTiet { get; set; }
 	}
 }
