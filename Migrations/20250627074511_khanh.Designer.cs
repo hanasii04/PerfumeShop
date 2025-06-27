@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PerfumeShop.Models;
 
@@ -11,9 +12,11 @@ using PerfumeShop.Models;
 namespace PerfumeShop.Migrations
 {
     [DbContext(typeof(PerfumeShopContext))]
-    partial class PerfumeShopContextModelSnapshot : ModelSnapshot
+    [Migration("20250627074511_khanh")]
+    partial class khanh
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -229,23 +232,38 @@ namespace PerfumeShop.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("ID_TK")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("NgayCapNhat")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("NgayTao")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SoDienThoai")
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
+                    b.Property<int>("TrangThai")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("VaiTro")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("Username")
                         .IsUnique();
 
                     b.ToTable("NguoiDungs");
@@ -369,34 +387,6 @@ namespace PerfumeShop.Migrations
                     b.HasIndex("Id_TheTich");
 
                     b.ToTable("SanPhamChiTiets");
-                });
-
-            modelBuilder.Entity("PerfumeShop.Models.TaiKhoan", b =>
-                {
-                    b.Property<int>("ID_TK")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PassWord")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TrangThai")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("VaiTro")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID_TK");
-
-                    b.HasIndex("UserName")
-                        .IsUnique();
-
-                    b.ToTable("TaiKhoans");
                 });
 
             modelBuilder.Entity("PerfumeShop.Models.TheTich", b =>
@@ -538,17 +528,6 @@ namespace PerfumeShop.Migrations
                     b.Navigation("TheTich");
                 });
 
-            modelBuilder.Entity("PerfumeShop.Models.TaiKhoan", b =>
-                {
-                    b.HasOne("PerfumeShop.Models.NguoiDung", "NguoiDung")
-                        .WithOne("TaiKhoan")
-                        .HasForeignKey("PerfumeShop.Models.TaiKhoan", "ID_TK")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("NguoiDung");
-                });
-
             modelBuilder.Entity("PerfumeShop.Models.DiaChi", b =>
                 {
                     b.Navigation("HoaDons");
@@ -577,9 +556,6 @@ namespace PerfumeShop.Migrations
                         .IsRequired();
 
                     b.Navigation("HoaDons");
-
-                    b.Navigation("TaiKhoan")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("PerfumeShop.Models.PhuongThucThanhToan", b =>
