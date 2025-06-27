@@ -18,9 +18,9 @@ namespace PerfumeShop.Models
 		public int TongTien { get; set; }
 		[ForeignKey("SanPhamChiTiet")]
 		public int Id_SanPhamChiTiet { get; set; }
-		public virtual SanPhamChiTiet SanPhamChiTiet { get; set; }
+		public virtual SanPhamChiTiet? SanPhamChiTiet { get; set; }
 		[ForeignKey("HoaDon")]
 		public int Id_HoaDon { get; set; }
-		public virtual HoaDon HoaDon { get; set; }
+		public virtual HoaDon? HoaDon { get; set; }
 	}
 }

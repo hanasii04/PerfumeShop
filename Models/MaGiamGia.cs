@@ -2,7 +2,7 @@
 
 namespace PerfumeShop.Models
 {
-	public class MaGiamGia : IUpdatable
+	public class MaGiamGia 
 	{
 		[Key]
 		public int Id { get; set; }

@@ -9,19 +9,22 @@ namespace PerfumeShop.Models
     public class TaiKhoan
     {
         [Key]
-        public int ID_TK { get; set; }
+        public int Id  { get; set; }
 
         [Required]
         [StringLength(100)]
-        public string UserName { get; set; }
+        public string Username { get; set; }
 
         [Required]
-        public string PassWord { get; set; }
+        public string Password { get; set; }
 
-        public Role VaiTro { get; set; } = Role.KhachHang;
-        public Status TrangThai { get; set; } = Status.HoatDong;
+        public Role VaiTro { get; set; } 
+        public Status TrangThai { get; set; } 
+
+        public DateTime NgayTao { get; set; } = DateTime.Now;
+        public DateTime? NgayCapNhat { get; set; }
 
         // Quan hệ 1-1
-        public virtual NguoiDung NguoiDung { get; set; }
+        public virtual NguoiDung? NguoiDung { get; set; }
     }
 }

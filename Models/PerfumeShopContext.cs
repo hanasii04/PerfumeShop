@@ -23,16 +23,16 @@ namespace PerfumeShop.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Unique constraint
-            modelBuilder.Entity<TaiKhoan>().HasIndex(t => t.UserName).IsUnique();
+            modelBuilder.Entity<TaiKhoan>().HasIndex(t => t.Username).IsUnique();
             modelBuilder.Entity<NguoiDung>().HasIndex(n => n.Email).IsUnique();
             modelBuilder.Entity<MaGiamGia>().HasIndex(m => m.TenMaGiamGia).IsUnique();
 
-            // 1-1: TaiKhoan - NguoiDung
-            modelBuilder.Entity<TaiKhoan>()
-                .HasOne(t => t.NguoiDung)
-                .WithOne(n => n.TaiKhoan)
-                .HasForeignKey<TaiKhoan>(t => t.ID_TK)
-                .OnDelete(DeleteBehavior.NoAction);
+            // Quan hệ 1-1: NguoiDung → TaiKhoan
+            modelBuilder.Entity<NguoiDung>()
+                .HasOne(nd => nd.TaiKhoan)
+                .WithOne(tk => tk.NguoiDung)
+                .HasForeignKey<NguoiDung>(nd => nd.ID_TK)
+                .OnDelete(DeleteBehavior.Cascade);
 
             // 1-1: NguoiDung - GioHang
             modelBuilder.Entity<NguoiDung>()
@@ -115,23 +115,6 @@ namespace PerfumeShop.Models
                 .OnDelete(DeleteBehavior.NoAction);
         }
 
-        public override int SaveChanges()
-        {
-            var creatableEntries = ChangeTracker.Entries<ICreatable>();
-            foreach (var entry in creatableEntries)
-            {
-                if (entry.State == EntityState.Added)
-                    entry.Entity.NgayTao = DateTime.Now;
-            }
-
-            var updatableEntries = ChangeTracker.Entries<IUpdatable>();
-            foreach (var entry in updatableEntries)
-            {
-                if (entry.State == EntityState.Modified)
-                    entry.Entity.NgayCapNhat = DateTime.Now;
-            }
-
-            return base.SaveChanges();
-        }
+       
     }
 }

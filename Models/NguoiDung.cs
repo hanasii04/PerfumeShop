@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PerfumeShop.Models
 {
-    public class NguoiDung : IUpdatable
+    public class NguoiDung 
     {
-        [Key]
+        [Key] 
         public int Id { get; set; }
 
         [Required]
@@ -27,11 +27,11 @@ namespace PerfumeShop.Models
         // Foreign Key & navigation 1-1
         [ForeignKey("TaiKhoan")]
         public int ID_TK { get; set; }
-        public virtual TaiKhoan TaiKhoan { get; set; }
+        public virtual TaiKhoan? TaiKhoan { get; set; }
 
         // Quan hệ khác
         public virtual List<HoaDon> HoaDons { get; set; } = new();
         public virtual List<DiaChi> DiaChis { get; set; } = new();
-        public virtual GioHang GioHang { get; set; }
+        public virtual GioHang? GioHang { get; set; }
     }
 }

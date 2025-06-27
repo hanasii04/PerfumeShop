@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PerfumeShop.Models;
 
 namespace PerfumeShop
@@ -9,23 +9,36 @@ namespace PerfumeShop
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            // Thêm dịch vụ Razor View + DbContext
             builder.Services.AddControllersWithViews();
 
-			builder.Services.AddDbContext<PerfumeShopContext>
-            (options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
-		    .UseLazyLoadingProxies());
+            builder.Services.AddDbContext<PerfumeShopContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+                       .UseLazyLoadingProxies()
+            );
 
-			var app = builder.Build();
+            // ➤ Cấu hình session
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30); // Thời gian sống session
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
 
-            // Configure the HTTP request pipeline.
+            var app = builder.Build();
+
+            // Middleware
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            // ➤ Kích hoạt session
+            app.UseSession();
 
             app.UseAuthorization();
 

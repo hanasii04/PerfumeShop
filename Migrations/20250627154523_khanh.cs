@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PerfumeShop.Migrations
 {
     /// <inheritdoc />
-    public partial class hi : Migration
+    public partial class khanh : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -28,27 +28,6 @@ namespace PerfumeShop.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MaGiamGias", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "NguoiDungs",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    VaiTro = table.Column<int>(type: "int", nullable: false),
-                    TrangThai = table.Column<int>(type: "int", nullable: false),
-                    HoTen = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    SoDienThoai = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    NgayTao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    NgayCapNhat = table.Column<DateTime>(type: "datetime2", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_NguoiDungs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -84,17 +63,34 @@ namespace PerfumeShop.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TenSanPham = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    MaSanPham = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    TenSanPham = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ThuongHieu = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    QuocGia = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     GioiTinh = table.Column<int>(type: "int", nullable: false),
-                    ThoiGianLuuHuong = table.Column<int>(type: "int", nullable: false),
                     MoTa = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     HinhAnh = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SanPhams", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TaiKhoans",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Username = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    VaiTro = table.Column<int>(type: "int", nullable: false),
+                    TrangThai = table.Column<int>(type: "int", nullable: false),
+                    NgayTao = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    NgayCapNhat = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaiKhoans", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -108,6 +104,59 @@ namespace PerfumeShop.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TheTichs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NguoiDungs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    HoTen = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    SoDienThoai = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    NgayTao = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    NgayCapNhat = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ID_TK = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NguoiDungs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_NguoiDungs_TaiKhoans_ID_TK",
+                        column: x => x.ID_TK,
+                        principalTable: "TaiKhoans",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SanPhamChiTiets",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SoLuong = table.Column<int>(type: "int", nullable: false),
+                    GiaBan = table.Column<int>(type: "int", nullable: false),
+                    GiaNhap = table.Column<int>(type: "int", nullable: false),
+                    NgayTao = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    NgayCapNhat = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Id_SanPham = table.Column<int>(type: "int", nullable: false),
+                    Id_TheTich = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SanPhamChiTiets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SanPhamChiTiets_SanPhams_Id_SanPham",
+                        column: x => x.Id_SanPham,
+                        principalTable: "SanPhams",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_SanPhamChiTiets_TheTichs_Id_TheTich",
+                        column: x => x.Id_TheTich,
+                        principalTable: "TheTichs",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -148,40 +197,12 @@ namespace PerfumeShop.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SanPhamChiTiets",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SoLuong = table.Column<int>(type: "int", nullable: false),
-                    GiaBan = table.Column<int>(type: "int", nullable: false),
-                    GiaNhap = table.Column<int>(type: "int", nullable: false),
-                    NgayTao = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    NgayCapNhat = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Id_SanPham = table.Column<int>(type: "int", nullable: false),
-                    Id_TheTich = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SanPhamChiTiets", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SanPhamChiTiets_SanPhams_Id_SanPham",
-                        column: x => x.Id_SanPham,
-                        principalTable: "SanPhams",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_SanPhamChiTiets_TheTichs_Id_TheTich",
-                        column: x => x.Id_TheTich,
-                        principalTable: "TheTichs",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "HoaDons",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    MaHoaDon = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TongTien = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     TrangThai = table.Column<int>(type: "int", nullable: false),
                     NgayTao = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -343,9 +364,9 @@ namespace PerfumeShop.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_NguoiDungs_Username",
+                name: "IX_NguoiDungs_ID_TK",
                 table: "NguoiDungs",
-                column: "Username",
+                column: "ID_TK",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -357,6 +378,12 @@ namespace PerfumeShop.Migrations
                 name: "IX_SanPhamChiTiets_Id_TheTich",
                 table: "SanPhamChiTiets",
                 column: "Id_TheTich");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TaiKhoans_Username",
+                table: "TaiKhoans",
+                column: "Username",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -397,6 +424,9 @@ namespace PerfumeShop.Migrations
 
             migrationBuilder.DropTable(
                 name: "NguoiDungs");
+
+            migrationBuilder.DropTable(
+                name: "TaiKhoans");
         }
     }
 }
