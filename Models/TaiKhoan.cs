@@ -3,8 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PerfumeShop.Models
 {
-    public enum Role { QuanLy, NhanVien, KhachHang }
-    public enum Status { HoatDong, KhongHoatDong }
 
     public class TaiKhoan
     {
@@ -18,8 +16,8 @@ namespace PerfumeShop.Models
         [Required]
         public string Password { get; set; }
 
-        public Role VaiTro { get; set; } 
-        public Status TrangThai { get; set; } 
+        public string VaiTro { get; set; }  = "KhachHang"; // Mặc định là Khách hàng, có thể là Admin hoặc Nhân viên
+        public int TrangThai { get; set; } 
 
         public DateTime NgayTao { get; set; } = DateTime.Now;
         public DateTime? NgayCapNhat { get; set; }
