@@ -21,17 +21,17 @@ namespace PerfumeShop.Models
         [StringLength(100)]
         public string Email { get; set; }
 
-        public DateTime NgayTao { get; set; } = DateTime.Now;
+        public DateTime? NgayTao { get; set; } = DateTime.Now;
         public DateTime? NgayCapNhat { get; set; }
 
         // Foreign Key & navigation 1-1
         [ForeignKey("TaiKhoan")]
-        public int ID_TK { get; set; }
-        public virtual TaiKhoan? TaiKhoan { get; set; }
+        public int? ID_TK { get; set; }
+        public virtual TaiKhoan TaiKhoan { get; set; }
 
         // Quan hệ khác
         public virtual List<HoaDon> HoaDons { get; set; } = new();
         public virtual List<DiaChi> DiaChis { get; set; } = new();
-        public virtual GioHang? GioHang { get; set; }
+        public virtual GioHang GioHang { get; set; }
     }
 }

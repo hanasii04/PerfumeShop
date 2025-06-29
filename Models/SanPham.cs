@@ -20,7 +20,7 @@ namespace PerfumeShop.Models
 		public string MoTa { get; set; }
 		[Required]
 		[StringLength(500)]
-		public string HinhAnh { get; set; }
+		public string? HinhAnh { get; set; }
 		public virtual List<SanPhamChiTiet> SanPhamChiTiets { get; set; } = new List<SanPhamChiTiet>();
 	}
 }

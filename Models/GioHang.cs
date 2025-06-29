@@ -9,10 +9,10 @@ namespace PerfumeShop.Models
 		[Key]
 		public int  Id { get; set; }
 		[ForeignKey("NguoiDung")]
-		public int Id_NguoiDung { get; set; }
+		public int? Id_NguoiDung { get; set; }
 
 		
-		public virtual NguoiDung? NguoiDung { get; set; }
+		public virtual NguoiDung NguoiDung { get; set; }
 		public virtual List<GioHangChiTiet> GioHangChiTiets { get; set; } = new List<GioHangChiTiet>();
 	}
 }

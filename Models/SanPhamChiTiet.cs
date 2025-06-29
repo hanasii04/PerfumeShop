@@ -19,11 +19,11 @@ namespace PerfumeShop.Models
 		public DateTime NgayTao { get; set; } = DateTime.Now;
 		public DateTime? NgayCapNhat { get; set; }
 		[ForeignKey("SanPham")]
-		public int Id_SanPham { get; set; }
-		public virtual SanPham? SanPham { get; set; }
+		public int? Id_SanPham { get; set; }
+		public virtual SanPham SanPham { get; set; }
 		[ForeignKey("TheTich")]
-		public int Id_TheTich { get; set; }
-		public virtual TheTich? TheTich { get; set; }
+		public int? Id_TheTich { get; set; }
+		public virtual TheTich TheTich { get; set; }
 		public virtual List<GioHangChiTiet> GioHangChiTiets { get; set; } = new List<GioHangChiTiet>();
 		public virtual List<HoaDonChiTiet> HoaDonChiTiets { get; set; } = new List<HoaDonChiTiet>();
 	}

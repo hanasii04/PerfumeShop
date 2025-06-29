@@ -4,6 +4,10 @@ namespace PerfumeShop.Models
 {
     public class PerfumeShopContext : DbContext
     {
+        public PerfumeShopContext()
+        {
+        }
+
         public PerfumeShopContext(DbContextOptions<PerfumeShopContext> options) : base(options) { }
 
         public DbSet<NguoiDung> NguoiDungs { get; set; }

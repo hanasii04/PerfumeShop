@@ -44,7 +44,7 @@ namespace PerfumeShop
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=TaiKhoan}/{action=DangNhap}/{id?}");
+                pattern: "{controller=NguoiDung}/{action=Index}/{id?}");
 
             app.Run();
         }

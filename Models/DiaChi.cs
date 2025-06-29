@@ -11,9 +11,9 @@ namespace PerfumeShop.Models
 		[StringLength(255)]
 		public string TenDiaChi { get; set; }
 		[ForeignKey("NguoiDung")]
-		public int Id_NguoiDung { get; set; }
+		public int? Id_NguoiDung { get; set; }
 
-        public virtual NguoiDung? NguoiDung { get; set; }
+        public virtual NguoiDung NguoiDung { get; set; }
 		public virtual List<HoaDon> HoaDons { get; set; } = new List<HoaDon>();
 	}
 }
