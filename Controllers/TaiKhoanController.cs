@@ -19,6 +19,7 @@ namespace PerfumeShop.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult DangNhap(DangNhapVM model)
         {
@@ -29,26 +30,28 @@ namespace PerfumeShop.Controllers
                 .Include(t => t.NguoiDung)
                 .FirstOrDefault(t => t.Username == model.UserName && t.Password == model.PassWord);
 
-            if (taiKhoan == null || taiKhoan.TrangThai == Status.KhongHoatDong)
+            if (taiKhoan == null || taiKhoan.TrangThai != 1) // 1 = HoatDong
             {
-                ModelState.AddModelError("", "Tài khoản không hợp lệ hoặc bị khóa.");
+                ModelState.AddModelError("", "Tài khoản không hợp lệ hoặc đã bị khóa.");
                 return View(model);
             }
 
+            // Lưu session
             HttpContext.Session.SetInt32("ID_TK", taiKhoan.Id);
-            HttpContext.Session.SetString("VaiTro", taiKhoan.VaiTro.ToString());
+            HttpContext.Session.SetString("VaiTro", taiKhoan.VaiTro ?? "KhachHang");
             HttpContext.Session.SetString("TenNguoiDung", taiKhoan.NguoiDung?.HoTen ?? "");
 
-            // ➤ Điều hướng theo vai trò
-            if (taiKhoan.VaiTro == Role.QuanLy || taiKhoan.VaiTro == Role.NhanVien)
+            // Chuyển hướng theo vai trò
+            if (taiKhoan.VaiTro == "QuanLy" || taiKhoan.VaiTro == "NhanVien")
             {
-                return RedirectToAction("Index", "Admin"); // Layout Admin
+                return RedirectToAction("Index", "Admin"); // vào trang Admin
             }
             else
             {
-                return RedirectToAction("Index", "Home"); // Layout Khách hàng
+                return RedirectToAction("Index", "Home"); // vào trang Home
             }
         }
+
         [HttpGet]
         public IActionResult DangKy()
         {
@@ -61,33 +64,29 @@ namespace PerfumeShop.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            // Kiểm tra trùng tên đăng nhập
             if (_context.TaiKhoans.Any(t => t.Username == model.UserName))
             {
                 ModelState.AddModelError("UserName", "Tên đăng nhập đã tồn tại.");
                 return View(model);
             }
 
-            // Kiểm tra trùng email
             if (_context.NguoiDungs.Any(n => n.Email == model.Email))
             {
                 ModelState.AddModelError("Email", "Email đã được sử dụng.");
                 return View(model);
             }
 
-            // Tạo mới tài khoản
             var tk = new TaiKhoan
             {
                 Username = model.UserName,
-                Password = model.PassWord, // (Sau này nên mã hóa)
-                VaiTro = Role.KhachHang,
-                TrangThai = Status.HoatDong
+                Password = model.PassWord,
+                VaiTro = "KhachHang",
+                TrangThai = 1
             };
 
             _context.TaiKhoans.Add(tk);
             _context.SaveChanges();
 
-            // Tạo người dùng liên kết
             var nd = new NguoiDung
             {
                 HoTen = model.HoTen,
@@ -103,7 +102,10 @@ namespace PerfumeShop.Controllers
             return RedirectToAction("DangNhap");
         }
 
-
-
+        public IActionResult DangXuat()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("DangNhap");
+        }
     }
 }

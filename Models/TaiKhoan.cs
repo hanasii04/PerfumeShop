@@ -19,8 +19,6 @@ namespace PerfumeShop.Models
         public string VaiTro { get; set; }  = "KhachHang"; // Mặc định là Khách hàng, có thể là Admin hoặc Nhân viên
         public int TrangThai { get; set; } 
 
-        public DateTime NgayTao { get; set; } = DateTime.Now;
-        public DateTime? NgayCapNhat { get; set; }
 
         // Quan hệ 1-1
         public virtual NguoiDung? NguoiDung { get; set; }
