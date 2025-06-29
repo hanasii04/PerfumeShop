@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace PerfumeShop.Models
 {
 	public enum OrderStatus { ChoXacNhan, ChoLayHang, DangGiaoHang, DaGiaoHang, DaHuy }
-	public class HoaDon : ICreatable
+	public class HoaDon 
 	{
 		[Key]
 		public int Id { get; set; }

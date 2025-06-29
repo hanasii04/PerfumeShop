@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PerfumeShop.Models
 {
-	public class SanPhamChiTiet : IUpdatable
+	public class SanPhamChiTiet 
 	{
 		[Key]
 		public int Id { get; set; }
