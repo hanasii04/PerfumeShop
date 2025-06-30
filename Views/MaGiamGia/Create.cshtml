@@ -1,0 +1,59 @@
+﻿@model PerfumeShop.DTO.MaGiamGiaDTO
+
+@{
+    ViewData["Title"] = "Thêm mã giảm giá";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml"; 
+}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-light rounded p-4">
+        <h5 class="mb-4">➕ Thêm mã giảm giá</h5>
+
+        <form asp-action="Create" method="post">
+            <div class="row g-3">
+
+                <div class="col-md-6">
+                    <label asp-for="TenMaGiamGia" class="form-label">Tên mã giảm giá</label>
+                    <input asp-for="TenMaGiamGia" class="form-control" />
+                    <span asp-validation-for="TenMaGiamGia" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="PhanTramGiam" class="form-label">Phần trăm giảm</label>
+                    <input asp-for="PhanTramGiam" class="form-control" type="number" min="0" max="100" />
+                    <span asp-validation-for="PhanTramGiam" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="NgayBatDau" class="form-label">Ngày bắt đầu</label>
+                    <input asp-for="NgayBatDau" class="form-control" type="date" />
+                    <span asp-validation-for="NgayBatDau" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="NgayKetThuc" class="form-label">Ngày kết thúc</label>
+                    <input asp-for="NgayKetThuc" class="form-control" type="date" />
+                    <span asp-validation-for="NgayKetThuc" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="SoLuong" class="form-label">Số lượng</label>
+                    <input asp-for="SoLuong" class="form-control" type="number" min="1" />
+                    <span asp-validation-for="SoLuong" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 d-flex align-items-center">
+                    <div class="form-check mt-4">
+                        <input asp-for="TrangThai" class="form-check-input" type="checkbox" checked />
+                        <label asp-for="TrangThai" class="form-check-label">Đang hoạt động</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex justify-content-between">
+                <a asp-action="Index" class="btn btn-secondary">← Quay lại</a>
+                <button type="submit" class="btn btn-primary">Lưu</button>
+            </div>
+        </form>
+    </div>
+</div>

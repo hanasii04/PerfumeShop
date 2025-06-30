@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PerfumeShop.DTO;
 
 namespace PerfumeShop.Models
 {
@@ -115,6 +116,11 @@ namespace PerfumeShop.Models
                 .OnDelete(DeleteBehavior.NoAction);
         }
 
-       
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Server=DESKTOP-0O61DM6\\TRUNGTT;Database=PerfumeShop;Trusted_Connection=True;TrustServerCertificate=True");
+                
+        }
+        public DbSet<PerfumeShop.DTO.MaGiamGiaDTO> MaGiamGiaDTO { get; set; } = default!;
     }
 }

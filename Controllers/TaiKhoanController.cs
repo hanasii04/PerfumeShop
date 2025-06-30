@@ -9,6 +9,7 @@ namespace PerfumeShop.Controllers
     public class TaiKhoanController : Controller
     {
         private readonly PerfumeShopContext _context;
+
         public TaiKhoanController(PerfumeShopContext context)
         {
             _context = context;
@@ -19,6 +20,7 @@ namespace PerfumeShop.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult DangNhap(DangNhapVM model)
         {
@@ -29,18 +31,18 @@ namespace PerfumeShop.Controllers
                 .Include(t => t.NguoiDung)
                 .FirstOrDefault(t => t.Username == model.UserName && t.Password == model.PassWord);
 
-            if (taiKhoan == null || taiKhoan.TrangThai == Status.KhongHoatDong)
+            if (taiKhoan == null || taiKhoan.TrangThai == 0) // 0 = bị khóa
             {
                 ModelState.AddModelError("", "Tài khoản không hợp lệ hoặc bị khóa.");
                 return View(model);
             }
 
             HttpContext.Session.SetInt32("ID_TK", taiKhoan.Id);
-            HttpContext.Session.SetString("VaiTro", taiKhoan.VaiTro.ToString());
+            HttpContext.Session.SetString("VaiTro", taiKhoan.VaiTro);
             HttpContext.Session.SetString("TenNguoiDung", taiKhoan.NguoiDung?.HoTen ?? "");
 
             // ➤ Điều hướng theo vai trò
-            if (taiKhoan.VaiTro == Role.QuanLy || taiKhoan.VaiTro == Role.NhanVien)
+            if (taiKhoan.VaiTro == "QuanLy" || taiKhoan.VaiTro == "NhanVien")
             {
                 return RedirectToAction("Index", "Admin"); // Layout Admin
             }
@@ -49,6 +51,7 @@ namespace PerfumeShop.Controllers
                 return RedirectToAction("Index", "Home"); // Layout Khách hàng
             }
         }
+
         [HttpGet]
         public IActionResult DangKy()
         {
@@ -79,9 +82,9 @@ namespace PerfumeShop.Controllers
             var tk = new TaiKhoan
             {
                 Username = model.UserName,
-                Password = model.PassWord, // (Sau này nên mã hóa)
-                VaiTro = Role.KhachHang,
-                TrangThai = Status.HoatDong
+                Password = model.PassWord,
+                VaiTro = "KhachHang",     // mặc định khách hàng
+                TrangThai = 1             // 1 = hoạt động
             };
 
             _context.TaiKhoans.Add(tk);
@@ -102,8 +105,5 @@ namespace PerfumeShop.Controllers
 
             return RedirectToAction("DangNhap");
         }
-
-
-
     }
 }

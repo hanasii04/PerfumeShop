@@ -1,0 +1,102 @@
+﻿@model List<PerfumeShop.Models.MaGiamGia>
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Quản lý Voucher";
+}
+
+<div class="container-fluid pt-4 px-4">
+    <div class="bg-light rounded p-4">
+
+        <div class="d-flex justify-content-between mb-3">
+            <h5 class="mb-0">Danh sách mã giảm giá</h5>
+            <a class="btn btn-success" asp-action="Create">➕ Thêm mới</a>
+        </div>
+
+        <form method="get" class="row mb-3 g-2">
+            <div class="col-md-4">
+                <input type="text" name="tuKhoa" class="form-control" placeholder="Tìm theo tên mã..."
+                       value="@ViewBag.TuKhoa" />
+            </div>
+            <div class="col-md-3">
+                <select name="trangThai" class="form-select">
+                    <option value="tatca" selected="@(ViewBag.TrangThai == "tatca")">Tất cả trạng thái</option>
+                    <option value="danghoatdong" selected="@(ViewBag.TrangThai == "danghoatdong")">Đang hoạt động</option>
+                    <option value="dakhoa" selected="@(ViewBag.TrangThai == "dakhoa")">Đã khóa</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary w-100">Lọc</button>
+            </div>
+        </form>
+
+        <div class="table-responsive">
+            <table class="table table-bordered text-center align-middle">
+                <thead class="table-primary">
+                    <tr>
+                        <th>#</th>
+                        <th>Tên mã</th>
+                        <th>Giảm (%)</th>
+                        <th>Thời gian</th>
+                        <th>Số lượng</th>
+                        <th>Trạng thái</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Any())
+                    {
+                        <tr>
+                            <td colspan="7">Không có dữ liệu.</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        int index = 1 + ((int)(ViewBag.CurrentPage - 1) * 10);
+                        foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@(index++)</td>
+                                <td>@item.TenMaGiamGia</td>
+                                <td>@item.PhanTramGiam %</td>
+                                <td>
+                                    @item.NgayBatDau.ToString("dd/MM/yyyy") – @item.NgayKetThuc.ToString("dd/MM/yyyy")
+                                </td>
+                                <td>@item.SoLuong</td>
+                                <td>
+                                    <span class="badge @(item.TrangThai ? "bg-success" : "bg-danger")">
+                                        @(item.TrangThai ? "Hoạt động" : "Đã khóa")
+                                    </span>
+                                </td>
+                                <td>
+                                    <a class="btn btn-sm btn-outline-info" asp-action="Details" asp-route-id="@item.Id">🔍</a>
+                                    <a class="btn btn-sm btn-outline-warning" asp-action="Edit" asp-route-id="@item.Id">✏️</a>
+
+                                    <form asp-action="ToggleTrangThai" asp-route-id="@item.Id" method="post" style="display:inline;">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Khóa/Mở">
+                                            @(item.TrangThai ? "🔒" : "🔓")
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @if (ViewBag.TotalPages > 1)
+        {
+            <nav class="d-flex justify-content-center">
+                <ul class="pagination">
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                            <a class="page-link" href="?page=@i&tuKhoa=@ViewBag.TuKhoa&trangThai=@ViewBag.TrangThai">@i</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        }
+
+    </div>
+</div>
