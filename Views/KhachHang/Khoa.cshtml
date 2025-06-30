@@ -1,0 +1,24 @@
+﻿@model PerfumeShop.Models.TaiKhoan
+
+@{
+    ViewData["Title"] = "Xác nhận khóa tài khoản";
+}
+
+<h3 class="text-danger mb-4">Xác nhận KHÓA tài khoản</h3>
+
+<div class="alert alert-warning">
+    <p>Bạn có chắc chắn muốn <strong>KHÓA</strong> tài khoản của khách hàng này không?</p>
+    <ul>
+        <li><strong>Họ tên:</strong> @Model.NguoiDung?.HoTen</li>
+        <li><strong>Email:</strong> @Model.NguoiDung?.Email</li>
+        <li><strong>Tên đăng nhập:</strong> @Model.Username</li>
+    </ul>
+</div>
+
+<form asp-action="KhoaConfirmed" method="post">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <button type="submit" class="btn btn-danger">
+        <i class="fas fa-lock"></i> Khóa tài khoản
+    </button>
+    <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+</form>

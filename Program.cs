@@ -11,7 +11,7 @@ namespace PerfumeShop
 
             // Thêm dịch vụ Razor View + DbContext
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddMvc().AddRazorRuntimeCompilation();
             builder.Services.AddDbContext<PerfumeShopContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
                        .UseLazyLoadingProxies()

@@ -1,0 +1,107 @@
+﻿@{
+    ViewData["Title"] = "Danh sách khách hàng";
+}
+<h3 class="mb-4">Danh sách khách hàng</h3>
+
+<!-- Tìm kiếm -->
+<div class="mb-3">
+    <input type="text" id="liveSearch" class="form-control form-control-sm w-25" placeholder="Tìm kiếm khách hàng..." />
+</div>
+
+<!-- Bảng kết quả -->
+<table class="table table-bordered table-hover">
+    <thead class="table-primary text-center">
+        <tr>
+            <th>Họ tên</th>
+            <th>SĐT</th>
+            <th>Email</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody id="khachHangBody">
+        @foreach (var kh in Model)
+        {
+            <tr>
+                <td>@kh.HoTen</td>
+                <td>@kh.SoDienThoai</td>
+                <td>@kh.Email</td>
+                <td>@kh.TaiKhoan.Username</td>
+                <td>@kh.TaiKhoan.Password</td>
+                <td>
+                    @Html.Raw(kh.TaiKhoan.TrangThai == 1
+                             ? "<span class='badge bg-success'>Hoạt động</span>"
+                             : "<span class='badge bg-danger'>Đã khóa</span>")
+                </td>
+                <td class="text-nowrap">
+                    <a href="/KhachHang/Details/@kh.Id" class="btn btn-sm btn-info me-1">
+                        <i class="fas fa-eye"></i>
+                    </a>
+                    <a href="/KhachHang/Edit/@kh.Id" class="btn btn-sm btn-warning me-1">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    @if (kh.TaiKhoan.TrangThai == 1)
+                    {
+                        <a href="/KhachHang/Khoa/@kh.TaiKhoan.Id" class="btn btn-sm btn-danger">
+                            <i class="fas fa-lock"></i>
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="/KhachHang/MoKhoa/@kh.TaiKhoan.Id" class="btn btn-sm btn-success">
+                            <i class="fas fa-unlock"></i>
+                        </a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $("#liveSearch").on("input", function () {
+            let keyword = $(this).val();
+            $.getJSON("/KhachHang/GetKhachHang", { search: keyword }, function (data) {
+                let rows = "";
+                data.forEach(kh => {
+                    rows += `
+                        <tr>
+                            <td>${kh.hoTen}</td>
+                            <td>${kh.soDienThoai}</td>
+                            <td>${kh.email}</td>
+                            <td>${kh.username}</td>
+                            <td>${kh.password}</td>
+                            <td>
+                                ${kh.trangThai === 1
+                                    ? '<span class="badge bg-success">Hoạt động</span>'
+                                    : '<span class="badge bg-danger">Đã khóa</span>'}
+                            </td>
+                            <td class="text-nowrap">
+                                <a href="/KhachHang/Details/${kh.id}" class="btn btn-sm btn-info me-1">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="/KhachHang/Edit/${kh.id}" class="btn btn-sm btn-warning me-1">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                ${kh.trangThai === 1
+                                    ? `<a href="/KhachHang/Khoa/${kh.idTaiKhoan}" class="btn btn-sm btn-danger">
+                                         <i class="fas fa-lock"></i>
+                                       </a>`
+                                    : `<a href="/KhachHang/MoKhoa/${kh.idTaiKhoan}" class="btn btn-sm btn-success">
+                                         <i class="fas fa-unlock"></i>
+                                       </a>`}
+                            </td>
+                        </tr>`;
+                });
+                $("#khachHangBody").html(rows);
+            });
+        });
+    </script>
+}

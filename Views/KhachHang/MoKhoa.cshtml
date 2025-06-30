@@ -1,0 +1,24 @@
+﻿@model PerfumeShop.Models.TaiKhoan
+
+@{
+    ViewData["Title"] = "Xác nhận mở khóa tài khoản";
+}
+
+<h3 class="text-success mb-4">Xác nhận MỞ KHÓA tài khoản</h3>
+
+<div class="alert alert-info">
+    <p>Bạn có chắc chắn muốn <strong>MỞ KHÓA</strong> tài khoản này không?</p>
+    <ul>
+        <li><strong>Họ tên:</strong> @Model.NguoiDung?.HoTen</li>
+        <li><strong>Email:</strong> @Model.NguoiDung?.Email</li>
+        <li><strong>Tên đăng nhập:</strong> @Model.Username</li>
+    </ul>
+</div>
+
+<form asp-action="MoKhoaConfirmed" method="post">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <button type="submit" class="btn btn-success">
+        <i class="fas fa-unlock"></i> Mở khóa tài khoản
+    </button>
+    <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+</form>
