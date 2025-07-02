@@ -1,0 +1,55 @@
+﻿﻿
+@model PerfumeShop.Models.NguoiDung
+
+@{
+    ViewData["Title"] = "Chi tiết người dùng";
+}
+
+<div class="container mt-4">
+    <div class="card border-0 shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0"><i class="bi bi-person-lines-fill me-2"></i> Thông tin người dùng</h4>
+        </div>
+        <div class="card-body">
+            <dl class="row mb-0">
+                <dt class="col-sm-3 fw-semibold">Họ tên</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(m => m.HoTen)</dd>
+
+                <dt class="col-sm-3 fw-semibold">Số điện thoại</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(m => m.SoDienThoai)</dd>
+
+                <dt class="col-sm-3 fw-semibold">Email</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(m => m.Email)</dd>
+
+                <dt class="col-sm-3 fw-semibold">Ngày tạo</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(m => m.NgayTao)</dd>
+
+                <dt class="col-sm-3 fw-semibold">Ngày cập nhật</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(m => m.NgayCapNhat)</dd>
+
+                <dt class="col-sm-3 fw-semibold">Tên tài khoản</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(m => m.TaiKhoan.Username)</dd>
+
+                <dt class="col-sm-3 fw-semibold">Trạng thái</dt>
+                <dd class="col-sm-9">
+                    @if (Model.TaiKhoan.TrangThai == 1)
+                    {
+                        <span class="badge bg-success">Hoạt động</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Dừng hoạt động</span>
+                    }
+                </dd>
+            </dl>
+        </div>
+        <div class="card-footer text-end bg-white">
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary me-2">
+                <i class="bi bi-pencil-square me-1"></i> Chỉnh sửa
+            </a>
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i> Quay lại danh sách
+            </a>
+        </div>
+    </div>
+</div>

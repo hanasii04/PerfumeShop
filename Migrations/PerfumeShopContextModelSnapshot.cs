@@ -233,13 +233,13 @@ namespace PerfumeShop.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("ID_TK")
+                    b.Property<int?>("ID_TK")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("NgayCapNhat")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("NgayTao")
+                    b.Property<DateTime?>("NgayTao")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("SoDienThoai")
@@ -253,7 +253,8 @@ namespace PerfumeShop.Migrations
                         .IsUnique();
 
                     b.HasIndex("ID_TK")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[ID_TK] IS NOT NULL");
 
                     b.ToTable("NguoiDungs");
                 });
@@ -531,8 +532,7 @@ namespace PerfumeShop.Migrations
                     b.HasOne("PerfumeShop.Models.TaiKhoan", "TaiKhoan")
                         .WithOne("NguoiDung")
                         .HasForeignKey("PerfumeShop.Models.NguoiDung", "ID_TK")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("TaiKhoan");
                 });
@@ -580,7 +580,8 @@ namespace PerfumeShop.Migrations
                 {
                     b.Navigation("DiaChis");
 
-                    b.Navigation("GioHang");
+                    b.Navigation("GioHang")
+                        .IsRequired();
 
                     b.Navigation("HoaDons");
                 });

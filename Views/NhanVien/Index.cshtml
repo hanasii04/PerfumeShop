@@ -1,0 +1,85 @@
+﻿@model IEnumerable<PerfumeShop.Models.NguoiDung>
+
+@{
+    ViewData["Title"] = "Danh sách người dùng";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Nhân Viên</h2>
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="bi bi-plus-circle me-1"></i> Tạo mới
+        </a>
+    </div>
+
+    <form asp-action="Index" method="get" class="row g-2 mb-3">
+        <div class="col-md-3">
+            <input type="text" name="tenSearch"
+                   value="@Context.Request.Query["tenSearch"]"
+                   class="form-control"
+                   placeholder="Tìm theo tên..."
+                   oninput="if(this.value === '') this.form.submit();" />
+        </div>
+        <div class="col-md-3">
+            <input type="text" name="sdtSearch"
+                   value="@Context.Request.Query["sdtSearch"]"
+                   class="form-control"
+                   placeholder="Tìm theo số điện thoại..."
+                   oninput="if(this.value === '') this.form.submit();" />
+        </div>
+        <div class="col-md-3">
+            @Html.DropDownList("trangThaiFilter",
+                     (SelectList)ViewBag.TrangThaiList,
+                     new { @class = "form-select", onchange = "this.form.submit();" })
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary w-100">Tìm kiếm</button>
+        </div>
+    </form>
+
+    <table class="table table-bordered table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Họ tên</th>
+                <th>Số điện thoại</th>
+                <th>Email</th>
+                <th>Ngày tạo</th>
+                <th>Ngày cập nhật</th>
+                <th>Tên tài khoản</th>
+                <th>Trạng thái</th>
+                <th class="text-center">Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.HoTen)</td>
+                    <td>@Html.DisplayFor(modelItem => item.SoDienThoai)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                    <td>@item.NgayTao?.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@item.NgayCapNhat?.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@item.TaiKhoan?.Username</td>
+                    <td>
+                        @if (item.TaiKhoan?.TrangThai == 1)
+                        {
+                            <span class="badge bg-success">Hoạt động</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Dừng hoạt động</span>
+                        }
+                    </td>
+                    <td class="text-center">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info me-1">
+                            <i class="bi bi-eye me-1"></i> Chi tiết
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning me-1">
+                            <i class="bi bi-pencil-square me-1"></i> Chỉnh sửa
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
