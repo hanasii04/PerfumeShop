@@ -8,6 +8,7 @@
 <h2>Chỉnh sửa mã giảm giá</h2>
 
 <form asp-action="Edit" method="post">
+    @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
     <input type="hidden" asp-for="Id" />
 
     <div class="form-group">

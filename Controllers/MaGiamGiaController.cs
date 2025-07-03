@@ -70,6 +70,15 @@ namespace PerfumeShop.Controllers
         {
             if (!ModelState.IsValid)
                 return View(dto);
+            // ✅ Kiểm tra trùng tên mã giảm giá
+            bool isExist = _context.MaGiamGias
+                .Any(m => m.TenMaGiamGia == dto.TenMaGiamGia);
+
+            if (isExist)
+            {
+                ModelState.AddModelError(nameof(dto.TenMaGiamGia), "Tên mã giảm giá đã tồn tại.");
+                return View(dto); // ➕ Trả về view với lỗi
+            }
 
             var entity = new MaGiamGia
             {
@@ -121,6 +130,14 @@ namespace PerfumeShop.Controllers
 
             if (!ModelState.IsValid)
                 return View(dto);
+
+            bool isExist = _context.MaGiamGias
+                 .Any(m => m.TenMaGiamGia == dto.TenMaGiamGia && m.Id != dto.Id);
+            if (isExist)
+            {
+                ModelState.AddModelError(nameof(dto.TenMaGiamGia), "Tên mã giảm giá đã tồn tại.");
+                return View(dto);
+            }
 
             var entity = _context.MaGiamGias.Find(id);
             if (entity == null) return NotFound();

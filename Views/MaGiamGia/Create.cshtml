@@ -10,6 +10,7 @@
         <h5 class="mb-4">➕ Thêm mã giảm giá</h5>
 
         <form asp-action="Create" method="post">
+            @Html.ValidationSummary(true, "", new { @class = "alert alert-danger" })
             <div class="row g-3">
 
                 <div class="col-md-6">
