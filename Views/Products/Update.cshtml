@@ -1,0 +1,96 @@
+﻿@model PerfumeShop.Models.SanPham
+@{
+    ViewData["Title"] = "Cập nhật sản phẩm";
+}
+
+<h2 class="mb-4">🛠️ Cập nhật sản phẩm: <strong>@Model.TenSanPham</strong></h2>
+
+<div class="card shadow-sm rounded-4 p-4 mb-5">
+    <form asp-action="Update" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="Id" value="@Model.Id" />
+
+        <div class="row g-4">
+            <div class="col-md-6">
+                <label class="form-label">Tên sản phẩm</label>
+                <input name="TenSanPham" class="form-control" value="@Model.TenSanPham" />
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Thương hiệu</label>
+                <input name="ThuongHieu" class="form-control" value="@Model.ThuongHieu" />
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Quốc gia</label>
+                <input name="QuocGia" class="form-control" value="@Model.QuocGia" />
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Giới tính</label>
+                <select name="GioiTinh" class="form-select">
+                    <option value="Nam" selected="@(Model.GioiTinh == "Nam")">Nam</option>
+                    <option value="Nữ" selected="@(Model.GioiTinh == "Nữ")">Nữ</option>
+                    <option value="Unisex" selected="@(Model.GioiTinh == "Unisex")">Unisex</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Thời gian lưu hương (giờ)</label>
+                <input name="ThoiGianLuuHuong" class="form-control" type="number" value="@Model.ThoiGianLuuHuong" />
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Hình ảnh mới</label>
+                <input name="HinhAnhMoi" type="file" class="form-control" />
+            </div>
+
+            <div class="col-12">
+                <label class="form-label">Mô tả</label>
+                <textarea name="MoTa" class="form-control" rows="4">@Model.MoTa</textarea>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary px-4 rounded-3">💾 Lưu thay đổi</button>
+            <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary ms-2">Quay lại</a>
+        </div>
+    </form>
+</div>
+
+<!-- Danh sách biến thể -->
+<h4 class="mb-3">📦 Biến thể sản phẩm</h4>
+
+@if (Model.SanPhamChiTiets != null && Model.SanPhamChiTiets.Any())
+{
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered text-center align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Thể tích</th>
+                    <th>Giá nhập</th>
+                    <th>Giá bán</th>
+                    <th>Số lượng</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var ct in Model.SanPhamChiTiets)
+                {
+                    <tr>
+                        <td>@ct.TheTich?.Ten</td>
+                        <td>@ct.GiaNhap.ToString("N0") VNĐ</td>
+                        <td>@ct.GiaBan.ToString("N0") VNĐ</td>
+                        <td>@ct.SoLuong</td>
+                        <td>
+                            <a asp-action="UpdateDetails" asp-route-id="@ct.Id" class="btn btn-sm btn-outline-primary">Sửa</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <p class="text-muted">Sản phẩm chưa có biến thể nào.</p>
+}

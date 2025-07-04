@@ -1,0 +1,48 @@
+﻿@model PerfumeShop.Models.SanPhamChiTiet
+@{
+    ViewData["Title"] = "Cập nhật biến thể";
+}
+
+<h2 class="mb-4">🔧 Cập nhật biến thể</h2>
+
+<div class="card shadow-sm rounded-4 p-4">
+    <form asp-action="UpdateDetails" method="post">
+        <input type="hidden" name="Id" value="@Model.Id" />
+
+        <div class="row g-4">
+            <div class="col-md-6">
+                <label class="form-label">Thể tích</label>
+                <select name="Id_TheTich" class="form-select">
+                    @foreach (var item in (SelectList)ViewBag.TheTichList)
+                    {
+                        <option value="@item.Value" selected="@(item.Value == Model.Id_TheTich.ToString())">@item.Text</option>
+                    }
+                </select>
+                <span class="text-danger">@ViewData.ModelState["Id_TheTich"]?.Errors.FirstOrDefault()?.ErrorMessage</span>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Số lượng</label>
+                <input name="SoLuong" type="number" class="form-control" value="@Model.SoLuong" />
+                <span class="text-danger">@ViewData.ModelState["SoLuong"]?.Errors.FirstOrDefault()?.ErrorMessage</span>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Giá nhập (VNĐ)</label>
+                <input name="GiaNhap" type="number" class="form-control" value="@Model.GiaNhap" />
+                <span class="text-danger">@ViewData.ModelState["GiaNhap"]?.Errors.FirstOrDefault()?.ErrorMessage</span>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Giá bán (VNĐ)</label>
+                <input name="GiaBan" type="number" class="form-control" value="@Model.GiaBan" />
+                <span class="text-danger">@ViewData.ModelState["GiaBan"]?.Errors.FirstOrDefault()?.ErrorMessage</span>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-success px-4 rounded-3">💾 Lưu thay đổi</button>
+            <a asp-action="Update" asp-route-id="@Model.Id_SanPham" class="btn btn-outline-secondary ms-2">Quay lại</a>
+        </div>
+    </form>
+</div>

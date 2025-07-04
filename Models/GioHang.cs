@@ -10,7 +10,7 @@ namespace PerfumeShop.Models
 		public int Id { get; set; }
 		[ForeignKey("NguoiDung")]
 		public int Id_NguoiDung { get; set; }
-		public virtual NguoiDung NguoiDung { get; set; }
+		public virtual NguoiDung? NguoiDung { get; set; }
 		public virtual List<GioHangChiTiet> GioHangChiTiets { get; set; } = new List<GioHangChiTiet>();
 	}
 }

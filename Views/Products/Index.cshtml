@@ -1,0 +1,62 @@
+﻿@model IEnumerable<PerfumeShop.Models.SanPham>
+
+@{
+    ViewData["Title"] = "Danh sách sản phẩm";
+}
+
+<h2 class="mb-4">Danh sách sản phẩm</h2>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <form method="get" asp-controller="Products" asp-action="Search" class="d-flex w-50">
+        <input type="text" name="keyword" class="form-control me-2" placeholder="Tìm theo tên, thương hiệu, quốc gia, giới tính..." />
+        <button type="submit" class="btn btn-outline-primary">Tìm kiếm</button>
+    </form>
+
+    <a asp-action="Create" class="btn btn-success">+ Thêm sản phẩm</a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-warning text-center">Không có sản phẩm nào để hiển thị.</div>
+}
+else
+{
+    <table class="table table-bordered table-hover align-middle text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>Ảnh</th>
+                <th>Tên sản phẩm</th>
+                <th>Thương hiệu</th>
+                <th>Quốc gia</th>
+                <th>Giới tính</th>
+                <th>Lưu hương (giờ)</th>
+                <th>Mô tả</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                var isOdd = true;
+                foreach (var item in Model)
+                {
+                    var rowClass = isOdd ? "table-light" : "table-secondary";
+                    isOdd = !isOdd;
+                    <tr class="@rowClass">
+                        <td>
+                            <img src="@item.HinhAnh" alt="Ảnh" style="width: 80px; height: auto;" class="img-thumbnail" />
+                        </td>
+                        <td>@item.TenSanPham</td>
+                        <td>@item.ThuongHieu</td>
+                        <td>@item.QuocGia</td>
+                        <td>@item.GioiTinh</td>
+                        <td>@item.ThoiGianLuuHuong</td>
+                        <td>@item.MoTa</td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info">Chi tiết</a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}

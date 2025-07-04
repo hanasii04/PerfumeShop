@@ -2,7 +2,6 @@
 
 namespace PerfumeShop.Models
 {
-	public enum Gender { Nam, Nu, Unisex}
 	public class SanPham 
 	{
 		[Key]
@@ -16,7 +15,9 @@ namespace PerfumeShop.Models
 		[Required]
 		[StringLength(100)]
 		public string QuocGia { get; set; }
-		public Gender GioiTinh { get; set; }
+		[Required]
+		[StringLength(50)]
+		public string GioiTinh { get; set; }
 		[Required]
 		[Range(0, int.MaxValue)]
 		public int ThoiGianLuuHuong { get; set; }

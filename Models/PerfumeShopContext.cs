@@ -22,7 +22,7 @@ namespace PerfumeShop.Models
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			// Đảm bảo mỗi Username, Email, TenMaGiamGia sẽ là duy nhất
-			modelBuilder.Entity<NguoiDung>().HasIndex(t => t.Username).IsUnique();
+			modelBuilder.Entity<TaiKhoan>().HasIndex(t => t.Username).IsUnique();
 			modelBuilder.Entity<NguoiDung>().HasIndex(n => n.Email).IsUnique();
 			modelBuilder.Entity<MaGiamGia>().HasIndex(m => m.TenMaGiamGia).IsUnique();
 
@@ -93,30 +93,6 @@ namespace PerfumeShop.Models
                 .WithMany(t => t.SanPhamChiTiets)
                 .HasForeignKey(s => s.Id_TheTich)
                 .OnDelete(DeleteBehavior.NoAction);
-		}
-
-		// Ghi đè phương thức SaveChanges của DbContext để tự động gán giá trị cho NgayTao và NgayCapNhat
-		public override int SaveChanges() 
-		{
-			// Lấy tất cả các thực thể kế thừa interface ICreatable
-			// Nếu đang ở trạng thái Added(tao mới), gán NgayTao = DateTime.Now.
-			var creatableEntries = ChangeTracker.Entries<ICreatable>();
-			foreach (var entry in creatableEntries)
-			{
-				if (entry.State == EntityState.Added)
-					entry.Entity.NgayTao = DateTime.Now;
-			}
-
-			// Lấy tất cả các thực thể kế thừa interface IUpdatable
-			// Nếu đang ở trạng thái Modified(cập nhật), gán NgayCapNhat = DateTime.Now.
-			var updatableEntries = ChangeTracker.Entries<IUpdatable>();
-			foreach (var entry in updatableEntries)
-			{
-				if (entry.State == EntityState.Modified)
-					entry.Entity.NgayCapNhat = DateTime.Now;
-			}
-
-			return base.SaveChanges();
 		}
 	}
 }
